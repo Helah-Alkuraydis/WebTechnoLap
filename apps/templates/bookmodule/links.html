@@ -1,0 +1,22 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %} HTML5 Links {% endblock title %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+ <style>
+        .topnav { display: none; }
+    </style>
+    {% endblock stylesheets %}
+
+{% block content %}
+    <h1 style="text-align: center; color: #6E4B3E;">Task 1: Links Formatting</h1>
+    
+    <div>
+        <a href="https://www.qu.edu.sa/" target="_blank" class="link-button" id="link1">Go to QU website (open in new tab)</a>
+        <a href="https://www.qu.edu.sa/" class="link-button" id="link2">Go to QU website (open in the same tab)</a>
+        <a href="https://www.qu.edu.sa/" class="link-button" id="link3">Go to QU website (open in the same tab)</a>
+    </div>
+{% endblock content %}

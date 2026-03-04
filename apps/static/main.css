@@ -1,0 +1,69 @@
+/* Task 1: Links Formatting */
+.link-button {
+    display: block;
+    padding: 20px;
+    text-align: center;
+    font-size: 20px;
+    margin: 0; /* عشان ياخذ عرض الشاشة بالكامل زي الصورة */
+    font-family: "Times New Roman", Times, serif;
+    text-decoration: underline;
+}
+
+/* الرابط الأول */
+#link1 {
+    background-color: #bdfcc9; /* أخضر فاتح */
+    color: red; /* نص أحمر */
+}
+
+/* الرابط الثاني */
+#link2 {
+    background-color: #555555; /* رمادي غامق */
+    color: yellow; /* نص أصفر */
+}
+
+/* الرابط الثالث */
+#link3 {
+    background-color: #000000; /* أسود */
+    color: white; /* نص أبيض */
+}
+
+/* عشان نرضي متطلبات اللاب (hover, active, visited) بدون ما نخرب الشكل */
+.link-button:hover { opacity: 0.8; }
+.link-button:active { font-weight: bold; }
+.link-button:visited { color: #0000FF; }
+
+/* Task 2: Formatting h1 Title */
+/* Task 2: Formatting Title */
+h1.formatting-title {
+    background-color: #f0f5e5; /* خلفية خضراء فاتحة جداً/بيج */
+    color: #006400; /* نص أخضر غامق */
+    padding: 15px;
+    font-family: "Times New Roman", Times, serif;
+    margin-top: 0;
+}
+
+/* Task 3: Listing Title Formatting */
+h1.listing-title {
+    background-color: #5F9EA0; 
+    color: white;
+    padding: 15px 20px;
+    font-family: "Times New Roman", Times, serif; 
+    margin-bottom: 20px;
+}
+
+/* Task 4: Tables Formatting */
+.fruit-table {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.complex-table {
+    margin: 10px auto;
+    border-collapse: collapse; 
+    text-align: center;
+}
+
+.complex-table th, .complex-table td {
+    border: 1px solid black;
+    padding: 5px 15px;
+}
