@@ -4,7 +4,7 @@
     padding: 20px;
     text-align: center;
     font-size: 20px;
-    margin: 0; /* عشان ياخذ عرض الشاشة بالكامل زي الصورة */
+    margin: 0; 
     font-family: "Times New Roman", Times, serif;
     text-decoration: underline;
 }
@@ -27,16 +27,14 @@
     color: white; /* نص أبيض */
 }
 
-/* عشان نرضي متطلبات اللاب (hover, active, visited) بدون ما نخرب الشكل */
 .link-button:hover { opacity: 0.8; }
 .link-button:active { font-weight: bold; }
 .link-button:visited { color: #0000FF; }
 
-/* Task 2: Formatting h1 Title */
-/* Task 2: Formatting Title */
+
 h1.formatting-title {
-    background-color: #f0f5e5; /* خلفية خضراء فاتحة جداً/بيج */
-    color: #006400; /* نص أخضر غامق */
+    background-color: #f0f5e5;
+    color: #006400;
     padding: 15px;
     font-family: "Times New Roman", Times, serif;
     margin-top: 0;
