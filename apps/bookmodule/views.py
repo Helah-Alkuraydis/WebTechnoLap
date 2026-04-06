@@ -2,6 +2,8 @@
 from django.http import HttpResponse # type: ignore
 
 from django.shortcuts import render  # type: ignore
+from django.http import HttpResponse
+from .models import Book
 
 # def index(request):
 #     name = request.GET.get("name") or "world!"
@@ -76,3 +78,34 @@ def search(request):
             if contained: newBooks.append(item)
         return render(request, 'bookmodule/bookList.html', {'books':newBooks})
     return render(request, 'bookmodule/search.html')
+
+
+def insert_book(request):
+    mybook = Book(title='Continuous Delivery', author='J.Humble and D. Farley', price= 120.00 , edition=3)
+    mybook.save()
+    mybook = Book(title='Reversing: Secrets of Reverse Engineer', author='E. Eilam', price= 97.00, edition=2)
+    mybook.save()
+    mybook = Book(title='The Hundred-Page Machine Learning Book ', author='Andriy Burkov', price= 100.00, edition=4)
+    
+    mybook.save() 
+
+    mybook = Book.objects.create(title = 'Continuous Delivery 22', author = 'J.Humble and D. Farley', edition = 1)
+    mybook.save() 
+
+    return HttpResponse("تم إضافة الكتاب لقاعدة البيانات بنجاح باستخدام كود جانجو! ")
+
+
+def simple_query(request):
+    mybooks = Book.objects.filter(title__icontains='a') 
+    return render(request, 'bookmodule/bookList.html', {'books': mybooks})
+
+def complex_query(request):
+    # شوفي كيف عدلنا الشرطات السفلية صارت ثنتين __ عشان جانجو يفهمها صح
+    mybooks = Book.objects.filter(author__isnull=False).filter(title__icontains='and').filter(edition__gte=2).exclude(price__lte=100)[:10]
+    
+    # هنا نقول: إذا لقيت كتب تطابق الشروط، اعرضها في صفحة bookList
+    if len(mybooks) >= 1:
+        return render(request, 'bookmodule/bookList.html', {'books': mybooks})
+    # وإذا ما لقيت، ودنا لصفحة index الأساسية
+    else:
+        return render(request, 'bookmodule/index.html')
