@@ -1,0 +1,15 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Task 4 - Order By {% endblock %}
+
+{% block content %}
+<div style="margin: 20px;">
+    <h2>Task 4: Books Ordered by Title</h2>
+    <hr>
+    {% for book in books %}
+        <p><strong>ID:</strong> {{ book.id }} | <strong>Title:</strong> {{ book.title }} | <strong>Author:</strong> {{ book.author }}</p>
+    {% empty %}
+        <p style="color: red;">No books found!</p>
+    {% endfor %}
+</div>
+{% endblock %}

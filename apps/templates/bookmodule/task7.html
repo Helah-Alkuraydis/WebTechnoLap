@@ -1,0 +1,17 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Task 7 - Students per City {% endblock %}
+
+{% block content %}
+<div style="margin: 20px;">
+    <h2>Task 7: Number of Students in Each City</h2>
+    <hr>
+    <ul>
+        {% for city in cities %}
+            <li><strong>{{ city.city }}:</strong> {{ city.student_count }} Students</li>
+        {% empty %}
+            <p style="color: red;">No cities or students found!</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Task 1 - Q Operator {% endblock %}
+
+{% block content %}
+<div style="margin: 20px;">
+    <h2>Task 1: Books with Price <= 80</h2>
+    <hr>
+    {% for book in books %}
+        <p><strong>ID:</strong> {{ book.id }} | <strong>Title:</strong> {{ book.title }} | <strong>Price:</strong> ${{ book.price }}</p>
+    {% empty %}
+        <p style="color: red;">No books found matching this condition!</p>
+    {% endfor %}
+</div>
+{% endblock %}

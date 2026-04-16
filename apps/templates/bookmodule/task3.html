@@ -1,0 +1,15 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Task 3 - NOT Q Operator {% endblock %}
+
+{% block content %}
+<div style="margin: 20px;">
+    <h2>Task 3: NOT (Edition > 3) AND NOT (Title or Author contains 'qu')</h2>
+    <hr>
+    {% for book in books %}
+        <p><strong>ID:</strong> {{ book.id }} | <strong>Title:</strong> {{ book.title }} | <strong>Author:</strong> {{ book.author }} | <strong>Edition:</strong> {{ book.edition }}</p>
+    {% empty %}
+        <p style="color: red;">No books found matching these conditions!</p>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Task 5 - Aggregation {% endblock %}
+
+{% block content %}
+<div style="margin: 20px;">
+    <h2>Task 5: Books Statistics</h2>
+    <hr>
+    <ul>
+        <li><strong>Total Number of Books:</strong> {{ stats.my_count }}</li>
+        <li><strong>Total Price of All Books:</strong> ${{ stats.my_sum }}</li>
+        <li><strong>Average Price:</strong> ${{ stats.my_avg }}</li>
+        <li><strong>Maximum Price:</strong> ${{ stats.my_max }}</li>
+        <li><strong>Minimum Price:</strong> ${{ stats.my_min }}</li>
+    </ul>
+</div>
+{% endblock %}
