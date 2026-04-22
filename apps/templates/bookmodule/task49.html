@@ -1,0 +1,27 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Task 4 - Price Stats {% endblock %}
+
+{% block content %}
+<div style="margin: 20px;">
+    <h2>Task 4: Average, Min, and Max Price per Publisher</h2>
+    <hr>
+    <ul>
+        {% for pub in publishers %}
+            <li style="margin-bottom: 10px;">
+                <strong>Publisher:</strong> {{ pub.name }}
+                <br>
+                {% if pub.avg_price %}
+                    📈 Average: ${{ pub.avg_price|floatformat:2 }} | 
+                    ⬇️ Min: ${{ pub.min_price }} | 
+                    ⬆️ Max: ${{ pub.max_price }}
+                {% else %}
+                    <span style="color: gray;">No books available for price stats.</span>
+                {% endif %}
+            </li>
+        {% empty %}
+            <p style="color: red;">No publishers found!</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Task 1 - Percentage {% endblock %}
+
+{% block content %}
+<div style="margin: 20px;">
+    <h2>Task 1: Books Availability Percentage</h2>
+    <hr>
+    <ul>
+        {% for book in books %}
+            <li>
+                <strong>Title:</strong> {{ book.title }} 
+                | <strong>Quantity:</strong> {{ book.quantity }}
+                | <strong>Availability:</strong> {{ book.percentage|floatformat:2 }}%
+            </li>
+        {% empty %}
+            <p style="color: red;">No books found!</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

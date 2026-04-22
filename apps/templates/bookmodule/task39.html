@@ -1,0 +1,25 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Task 3 - Oldest Book {% endblock %}
+
+{% block content %}
+<div style="margin: 20px;">
+    <h2>Task 3: Oldest Book Date for Each Publisher</h2>
+    <hr>
+    <ul>
+        {% for pub in publishers %}
+            <li>
+                <strong>Publisher:</strong> {{ pub.name }} 
+                | <strong>Oldest Book Published:</strong> 
+                {% if pub.oldest_book_date %}
+                    {{ pub.oldest_book_date|date:"Y-m-d" }}
+                {% else %}
+                    <span style="color: gray;">No books available</span>
+                {% endif %}
+            </li>
+        {% empty %}
+            <p style="color: red;">No publishers found!</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

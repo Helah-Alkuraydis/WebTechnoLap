@@ -1,0 +1,21 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Task 5 - Highly Rated Books {% endblock %}
+
+{% block content %}
+<div style="margin: 20px;">
+    <h2>Task 5: Count of Highly Rated Books (Rating >= 4) per Publisher</h2>
+    <hr>
+    <ul>
+        {% for pub in publishers %}
+        <li>
+            <strong>Publisher:</strong> {{ pub.name }}
+            | 🌟 <strong>High Rated Books (Count):</strong> {{ pub.high_rated_count }}
+            | 📦 <strong>Total Quantity:</strong> {{ pub.high_rated_quantity|default:0 }}
+        </li>
+        {% empty %}
+        <p style="color: red;">No publishers found!</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

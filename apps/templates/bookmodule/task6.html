@@ -1,0 +1,21 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Task 6 - Filtered Count {% endblock %}
+
+{% block content %}
+<div style="margin: 20px;">
+    <h2>Task 6: Expensive & Low Stock Books per Publisher</h2>
+    <hr>
+    <p><em>Filters applied: Price > 50 AND 1 <= Quantity < 5</em></p>
+    <ul>
+        {% for pub in publishers %}
+            <li>
+                <strong>Publisher:</strong> {{ pub.name }} 
+                | 📚 <strong>Matching Books Count:</strong> {{ pub.target_books_count }}
+            </li>
+        {% empty %}
+            <p style="color: red;">No publishers found!</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

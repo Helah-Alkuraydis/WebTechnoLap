@@ -1,0 +1,20 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Task 2 - Publishers Stock {% endblock %}
+
+{% block content %}
+<div style="margin: 20px;">
+    <h2>Task 2: Publishers and Their Total Book Stock</h2>
+    <hr>
+    <ul>
+        {% for pub in publishers %}
+            <li>
+                <strong>Publisher:</strong> {{ pub.name }} 
+                | <strong>Total Stock:</strong> {{ pub.total_stock|default:0 }} books
+            </li>
+        {% empty %}
+            <p style="color: red;">No publishers found!</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
