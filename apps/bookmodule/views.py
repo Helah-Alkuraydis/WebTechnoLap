@@ -190,4 +190,4 @@ def task6(request):
             filter=Q(book__price__gt=50) & Q(book__quantity__lt=5) & Q(book__quantity__gte=1)
         )
     )
-    return render(request, 'bookmodule/task6.html', {'publishers': publishers})
+    return render(request, 'bookmodule/task69.html', {'publishers': publishers})
