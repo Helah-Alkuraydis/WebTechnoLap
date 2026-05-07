@@ -19,6 +19,9 @@ from django.contrib import admin
 from django.urls import include, path
 import apps.bookmodule.views
 
+from django.conf import settings # أضفنا هذا
+from django.conf.urls.static import static # وأضفنا هذا
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('books/', include("apps.bookmodule.urls")), #include urls.py of bookmodule app
@@ -27,3 +30,7 @@ urlpatterns = [
     # path('', apps.bookmodule.views.index),
     # path('index2/<int:val1>/', apps.bookmodule.views.index2),
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

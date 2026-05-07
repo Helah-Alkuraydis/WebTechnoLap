@@ -1,0 +1,14 @@
+{% extends "layouts/base.html" %}
+{% block title %} Add Document {% endblock %}
+{% block content %}
+<div style="margin: 20px;">
+    <h2>Task 3: Upload a Document (Image)</h2>
+    <hr>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" style="padding: 10px 20px; background-color: #008CBA; color: white; border: none; border-radius: 5px;">Upload Document</button>
+        <a href="/books/lab11/task3/documents" style="margin-left: 10px;">Cancel</a>
+    </form>
+</div>
+{% endblock %}

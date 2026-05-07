@@ -3,9 +3,9 @@ from django.http import HttpResponse # type: ignore
 from django.shortcuts import redirect, render
 
 from apps.bookmodule.forms import BookForm  # type: ignore
-from .models import Book, Address, Student, Author, Publisher
+from .models import Book, Address, Document, Student, Author, Publisher , Student2
 from django.db.models import Count, Sum, Avg, Max, Min,Q, F, FloatField, ExpressionWrapper
-
+from .forms import DocumentForm, StudentForm , Student2Form
 
 # def index(request):
 #     name = request.GET.get("name") or "world!"
@@ -331,3 +331,93 @@ def deletebook2(request, id):
         book.delete()
         return redirect('lab9_part2.listbooks')
     return render(request, 'bookmodule/deletebook2.html', {'book': book})
+
+
+# Lap 11
+
+
+# 1. القراءة (العرض)
+def list_students(request):
+    students = Student.objects.all()
+    return render(request, 'bookmodule/list_students.html', {'students': students})
+
+# 2. الإضافة
+def add_student(request):
+    if request.method == 'POST':
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('list_students')
+    else:
+        form = StudentForm()
+    return render(request, 'bookmodule/student_form.html', {'form': form, 'action': 'Add'})
+
+# 3. التعديل
+def edit_student(request, id):
+    student = Student.objects.get(id=id)
+    if request.method == 'POST':
+        form = StudentForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            return redirect('list_students')
+    else:
+        form = StudentForm(instance=student)
+    return render(request, 'bookmodule/student_form.html', {'form': form, 'action': 'Edit'})
+
+# 4. الحذف
+def delete_student(request, id):
+    student = Student.objects.get(id=id)
+    if request.method == 'POST':
+        student.delete()
+        return redirect('list_students')
+    return render(request, 'bookmodule/delete_student.html', {'student': student})
+
+
+def list_students2(request):
+    students = Student2.objects.all()
+    return render(request, 'bookmodule/list_students2.html', {'students': students})
+
+def add_student2(request):
+    if request.method == 'POST':
+        form = Student2Form(request.POST)
+        if form.is_valid():
+            form.save() # السحر: الفورم بيحفظ الطالب ويربط عناوينه المتعددة تلقائياً!
+            return redirect('list_students2')
+    else:
+        form = Student2Form()
+    return render(request, 'bookmodule/student2_form.html', {'form': form, 'action': 'Add'})
+
+def edit_student2(request, id):
+    student = Student2.objects.get(id=id)
+    if request.method == 'POST':
+        form = Student2Form(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            return redirect('list_students2')
+    else:
+        form = Student2Form(instance=student)
+    return render(request, 'bookmodule/student2_form.html', {'form': form, 'action': 'Edit'})
+
+def delete_student2(request, id):
+    student = Student2.objects.get(id=id)
+    if request.method == 'POST':
+        student.delete()
+        return redirect('list_students2')
+    return render(request, 'bookmodule/delete_student2.html', {'student': student})
+
+
+
+def list_documents(request):
+    documents = Document.objects.all()
+    return render(request, 'bookmodule/list_documents.html', {'documents': documents})
+
+def add_document(request):
+    if request.method == 'POST':
+        # السر هنا: لازم نمرر request.FILES عشان الفورم يستقبل الصورة!
+        form = DocumentForm(request.POST, request.FILES) 
+        if form.is_valid():
+            form.save()
+            return redirect('list_documents')
+    else:
+        form = DocumentForm()
+    return render(request, 'bookmodule/add_document.html', {'form': form})

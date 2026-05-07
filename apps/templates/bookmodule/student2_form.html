@@ -1,0 +1,15 @@
+{% extends "layouts/base.html" %}
+{% block title %} {{ action }} Student (Task 2) {% endblock %}
+{% block content %}
+<div style="margin: 20px;">
+    <h2>{{ action }} Student (Many-to-Many)</h2>
+    <hr>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p style="color: gray; font-size: 12px;">* Hold Ctrl (or Cmd on Mac) to select multiple addresses.</p>
+        <button type="submit" style="padding: 10px 20px; background-color: #008CBA; color: white; border: none; border-radius: 5px;">Save</button>
+        <a href="/books/lab11/task2/students" style="margin-left: 10px;">Cancel</a>
+    </form>
+</div>
+{% endblock %}

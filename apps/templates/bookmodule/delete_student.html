@@ -1,0 +1,14 @@
+{% extends "layouts/base.html" %}
+{% block title %} Delete Student {% endblock %}
+{% block content %}
+<div style="margin: 20px;">
+    <h2>Delete Student</h2>
+    <hr>
+    <p>Are you sure you want to delete <strong>{{ student.name }}</strong>?</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" style="padding: 10px 20px; background-color: red; color: white; border: none; border-radius: 5px;">Yes, Delete</button>
+        <a href="/books/lab11/task1/students" style="margin-left: 10px;">Cancel</a>
+    </form>
+</div>
+{% endblock %}

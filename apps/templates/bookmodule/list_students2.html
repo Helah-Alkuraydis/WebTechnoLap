@@ -1,0 +1,34 @@
+{% extends "layouts/base.html" %}
+{% block title %} Task 2: List of Students {% endblock %}
+{% block content %}
+<div style="margin: 20px;">
+    <h2>Task 2: Student List (Many-to-Many)</h2>
+    <a href="/books/lab11/task2/addstudent" style="display: inline-block; margin-bottom: 15px; padding: 10px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">+ Add New Student</a>
+    
+    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align: left;">
+        <tr style="background-color: #f2f2f2;">
+            <th>ID</th><th>Name</th><th>Age</th><th>Addresses (Cities)</th><th>Actions</th>
+        </tr>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.id }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.age }}</td>
+            <td>
+                {% for addr in student.addresses.all %}
+                    <span style="background-color: #e9ecef; padding: 2px 5px; border-radius: 3px; margin-right: 5px;">{{ addr.city }}</span>
+                {% empty %}
+                    No Address
+                {% endfor %}
+            </td>
+            <td>
+                <a href="/books/lab11/task2/editstudent/{{ student.id }}" style="color: blue;">Edit</a> | 
+                <a href="/books/lab11/task2/deletestudent/{{ student.id }}" style="color: red;">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">No students found in Task 2.</td></tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

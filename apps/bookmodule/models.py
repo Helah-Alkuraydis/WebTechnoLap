@@ -41,3 +41,27 @@ class Student(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+
+class Document(models.Model):
+    title = models.CharField(max_length=100)
+    document_image = models.ImageField(upload_to='documents/') 
+
+    def __str__(self):
+        return self.title
+
+class Address2(models.Model):
+    city = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.city
+
+class Student2(models.Model):
+    name = models.CharField(max_length=100)
+    age = models.IntegerField()
+    # هنا التغيير الجوهري: علاقة متعدد لمتعدد
+    addresses = models.ManyToManyField(Address2)
+
+    def __str__(self):
+        return self.name

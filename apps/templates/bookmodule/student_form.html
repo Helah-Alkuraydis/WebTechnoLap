@@ -1,0 +1,14 @@
+{% extends "layouts/base.html" %}
+{% block title %} {{ action }} Student {% endblock %}
+{% block content %}
+<div style="margin: 20px;">
+    <h2>{{ action }} Student</h2>
+    <hr>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" style="padding: 10px 20px; background-color: #008CBA; color: white; border: none; border-radius: 5px;">Save</button>
+        <a href="/books/lab11/task1/students" style="margin-left: 10px;">Cancel</a>
+    </form>
+</div>
+{% endblock %}

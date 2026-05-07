@@ -1,0 +1,28 @@
+{% extends "layouts/base.html" %}
+{% block title %} List of Students {% endblock %}
+{% block content %}
+<div style="margin: 20px;">
+    <h2>Task 1: Student List</h2>
+    <a href="/books/lab11/task1/addstudent" style="display: inline-block; margin-bottom: 15px; padding: 10px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">+ Add New Student</a>
+    
+    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align: left;">
+        <tr style="background-color: #f2f2f2;">
+            <th>ID</th><th>Name</th><th>Age</th><th>Address (City)</th><th>Actions</th>
+        </tr>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.id }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.age }}</td>
+            <td>{{ student.address.city }}</td>
+            <td>
+                <a href="/books/lab11/task1/editstudent/{{ student.id }}" style="color: blue;">Edit</a> | 
+                <a href="/books/lab11/task1/deletestudent/{{ student.id }}" style="color: red;">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">No students found.</td></tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

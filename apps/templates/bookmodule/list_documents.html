@@ -1,0 +1,21 @@
+{% extends "layouts/base.html" %}
+{% block title %} Documents Gallery {% endblock %}
+{% block content %}
+<div style="margin: 20px;">
+    <h2>Task 3: Documents Gallery</h2>
+    <a href="/books/lab11/task3/add_document" style="display: inline-block; margin-bottom: 15px; padding: 10px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">+ Upload New Document</a>
+    
+    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+        {% for doc in documents %}
+        <div style="border: 1px solid #ccc; padding: 10px; border-radius: 5px; text-align: center; width: 200px;">
+            <p><strong>{{ doc.title }}</strong></p>
+            {% if doc.document_image %}
+                <img src="{{ doc.document_image.url }}" alt="{{ doc.title }}" style="max-width: 100%; border-radius: 5px;">
+            {% endif %}
+        </div>
+        {% empty %}
+        <p>No documents uploaded yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
