@@ -1,0 +1,23 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Delete Book {% endblock %}
+
+{% block content %}
+<div style="margin: 20px;">
+    <h2>Task 4: Delete Book</h2>
+    <hr>
+    
+    <div style="background-color: #ffe6e6; padding: 15px; border-left: 5px solid red; margin-bottom: 20px;">
+        <p style="color: #990000; font-size: 18px;">
+            ⚠️ Are you sure you want to delete the book: <strong>"{{ book.title }}"</strong>?
+        </p>
+        <p style="color: #666;">This action cannot be undone.</p>
+    </div>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" style="padding: 10px 20px; background-color: red; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Yes, Delete it!</button>
+        <a href="/books/lab9_part1/listbooks" style="margin-left: 15px; color: #555; text-decoration: none; font-weight: bold;">Cancel</a>
+    </form>
+</div>
+{% endblock %}

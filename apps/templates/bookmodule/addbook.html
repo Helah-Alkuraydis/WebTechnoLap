@@ -1,0 +1,68 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Add New Book {% endblock %}
+
+{% block content %}
+<div style="margin: 20px;">
+    <h2>Task 2: Add a New Book (Full Details)</h2>
+    <hr>
+    
+    <form method="POST" action="/books/lab9_part1/addbook">
+        {% csrf_token %}
+        
+        <!-- حقل العنوان -->
+        <div style="margin-bottom: 15px;">
+            <label for="title">Book Title:</label><br>
+            <input type="text" id="title" name="title" required style="width: 300px; padding: 5px;">
+        </div>
+        
+        <!-- حقل السعر -->
+        <div style="margin-bottom: 15px;">
+            <label for="price">Price ($):</label><br>
+            <input type="number" id="price" name="price" step="0.01" value="0.0" required style="width: 300px; padding: 5px;">
+        </div>
+        
+        <!-- حقل الكمية -->
+        <div style="margin-bottom: 15px;">
+            <label for="quantity">Quantity:</label><br>
+            <input type="number" id="quantity" name="quantity" value="1" required style="width: 300px; padding: 5px;">
+        </div>
+
+        <!-- حقل تاريخ النشر (نوعه datetime-local ليتناسب مع DateTimeField) -->
+        <div style="margin-bottom: 15px;">
+            <label for="pubdate">Publication Date & Time:</label><br>
+            <input type="datetime-local" id="pubdate" name="pubdate" required style="width: 300px; padding: 5px;">
+        </div>
+
+        <!-- حقل التقييم -->
+        <div style="margin-bottom: 15px;">
+            <label for="rating">Rating (1-5):</label><br>
+            <input type="number" id="rating" name="rating" min="1" max="5" value="1" required style="width: 300px; padding: 5px;">
+        </div>
+
+        <!-- قائمة الناشرين (علاقة ForeignKey) -->
+        <div style="margin-bottom: 15px;">
+            <label for="publisher">Publisher:</label><br>
+            <select id="publisher" name="publisher" style="width: 315px; padding: 5px;">
+                <option value="">-- Select a Publisher --</option>
+                {% for pub in publishers %}
+                    <option value="{{ pub.id }}">{{ pub.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- قائمة المؤلفين (علاقة ManyToMany - تسمح باختيار أكثر من واحد) -->
+        <div style="margin-bottom: 20px;">
+            <label for="authors">Authors (Hold Ctrl/Cmd to select multiple):</label><br>
+            <select id="authors" name="authors" multiple style="width: 315px; padding: 5px; height: 100px;">
+                {% for author in authors %}
+                    <option value="{{ author.id }}">{{ author.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <button type="submit" style="padding: 10px 20px; background-color: #008CBA; color: white; border: none; border-radius: 5px; cursor: pointer;">Save Book</button>
+        <a href="/books/lab9_part1/listbooks" style="margin-left: 10px; color: gray;">Cancel</a>
+    </form>
+</div>
+{% endblock %}

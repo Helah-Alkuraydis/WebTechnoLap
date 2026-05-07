@@ -1,0 +1,20 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Edit Book (Django Forms) {% endblock %}
+
+{% block content %}
+<div style="margin: 20px;">
+    <h2>Part 2: Edit a Book (Using Django Forms)</h2>
+    <hr>
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        <!-- هذا السطر يرسم كل حقول المودل كفقرات (paragraphs) جاهزة -->
+        {{ form.as_p }}
+        
+        <button type="submit" style="padding: 10px 20px; background-color: #008CBA; color: white; border: none; border-radius: 5px; cursor: pointer;">Save Book</button>
+        <a href="/books/lab9_part2/listbooks" style="margin-left: 10px; color: gray;">Cancel</a>
+    </form>
+</div>
+{% endblock %}

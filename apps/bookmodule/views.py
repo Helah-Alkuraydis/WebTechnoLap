@@ -1,6 +1,8 @@
 
 from django.http import HttpResponse # type: ignore
-from django.shortcuts import render  # type: ignore
+from django.shortcuts import redirect, render
+
+from apps.bookmodule.forms import BookForm  # type: ignore
 from .models import Book, Address, Student, Author, Publisher
 from django.db.models import Count, Sum, Avg, Max, Min,Q, F, FloatField, ExpressionWrapper
 
@@ -191,3 +193,141 @@ def task6(request):
         )
     )
     return render(request, 'bookmodule/task69.html', {'publishers': publishers})
+
+
+# lap 10
+def listbooks(request):
+    books = Book.objects.all()
+    return render(request, 'bookmodule/listbooks.html', {'books': books})
+
+def addbook(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        price = request.POST.get('price')
+        quantity = request.POST.get('quantity')
+        pubdate = request.POST.get('pubdate')
+        rating = request.POST.get('rating')
+        
+        # نستخدم publisher_id لأن الفورم يرسل أرقام (IDs)
+        publisher_id = request.POST.get('publisher')
+        
+        # نستخدم getlist عشان نجيب كل المؤلفين اللي اختارهم المستخدم
+        author_ids = request.POST.getlist('authors')
+        
+        # 1. ننشئ الكتاب بدون المؤلفين
+        new_book = Book(
+            title=title, 
+            price=price, 
+            quantity=quantity, 
+            pubdate=pubdate, 
+            rating=rating, 
+            publisher_id=publisher_id # عدلناها هنا
+        )
+        # 2. نحفظ الكتاب في الداتابيس أولاً
+        new_book.save()
+
+        # 3. الآن نربط المؤلفين بالكتاب بعد ما تم حفظه
+        if author_ids:
+            new_book.authors.set(author_ids)
+        
+        return redirect('lab9_part1.listbooks')
+    
+    publishers = Publisher.objects.all()
+    authors = Author.objects.all()
+    
+    # تأكدي أن المفاتيح هنا تتطابق مع اللي في الـ HTML
+    return render(request, 'bookmodule/addbook.html', {
+        'publishers': publishers,
+        'authors': authors  # تم تعديل الاسم هنا ليتطابق مع الـ HTML
+    })
+
+
+
+def editbook(request, id):
+    # نجلب الكتاب المطلوب تعديله
+    book = Book.objects.get(id=id)
+    
+    if request.method == 'POST':
+        # نستقبل البيانات الجديدة من الفورم
+        book.title = request.POST.get('title')
+        book.price = request.POST.get('price')
+        book.quantity = request.POST.get('quantity')
+        book.pubdate = request.POST.get('pubdate')
+        book.rating = request.POST.get('rating')
+        
+        # نستقبل رقم الناشر الجديد
+        book.publisher_id = request.POST.get('publisher')
+        
+        # نحفظ التعديلات الأساسية
+        book.save()
+        
+        # نستقبل أرقام المؤلفين الجدد (كقائمة) ونحدث العلاقة
+        author_ids = request.POST.getlist('authors')
+        book.authors.set(author_ids)  # دالة set ستمسح القديم وتضع الجديد
+        
+        return redirect('lab9_part1.listbooks')
+        
+    # في حالة فتح الصفحة (GET)، نحتاج نرسل كل الناشرين والمؤلفين للقوائم المنسدلة
+    publishers = Publisher.objects.all()
+    authors = Author.objects.all()
+    
+    return render(request, 'bookmodule/editbook.html', {
+        'book': book,
+        'publishers': publishers,
+        'authors': authors
+    })
+
+def deletebook(request, id):
+    # نجلب الكتاب المطلوب حذفه
+    book = Book.objects.get(id=id)
+    
+    # إذا ضغط المستخدم على زر "تأكيد الحذف" (POST)
+    if request.method == 'POST':
+        book.delete() # سطر واحد فقط يقوم بمسح الكتاب من قاعدة البيانات!
+        return redirect('lab9_part1.listbooks')
+        
+    # إذا فتح رابط الحذف فقط (GET)، نعرض له صفحة التأكيد
+    return render(request, 'bookmodule/deletebook.html', {'book': book})
+
+
+
+# دالة عرض الكتب للجزء الثاني (نفس الأولى بس نرسلها لصفحة HTML مختلفة)
+def listbooks2(request):
+    books = Book.objects.all()
+    return render(request, 'bookmodule/listbooks2.html', {'books': books})
+
+# دالة إضافة كتاب باستخدام Django Forms
+def addbook2(request):
+    if request.method == 'POST':
+        form = BookForm(request.POST) # نمرر البيانات للفورم
+        if form.is_valid(): # جانجو يتأكد تلقائياً إن البيانات صحيحة
+            form.save() # سطر واحد يحفظ الكتاب ويربط الناشر والمؤلفين!
+            return redirect('lab9_part2.listbooks')
+    else:
+        form = BookForm() # إذا كان الطلب GET، ننشئ فورم فارغ
+        
+    return render(request, 'bookmodule/addbook2.html', {'form': form})
+
+# دالة التعديل
+def editbook2(request, id):
+    book = Book.objects.get(id=id)
+    
+    if request.method == 'POST':
+        # نمرر البيانات الجديدة، ونقول لجانجو إنها تابعة لهذا الكتاب (instance)
+        form = BookForm(request.POST, instance=book)
+        if form.is_valid():
+            form.save() # سطر واحد يحدث كل شيء!
+            return redirect('lab9_part2.listbooks')
+    else:
+        # إذا فتحنا الصفحة، نرسل الفورم معبأ ببيانات الكتاب الحالية
+        form = BookForm(instance=book)
+        
+    return render(request, 'bookmodule/editbook2.html', {'form': form, 'book': book})
+
+# دالة الحذف (نفس Part 1 بالضبط لأن الفورمز ما تأثر على الحذف)
+def deletebook2(request, id):
+    book = Book.objects.get(id=id)
+    if request.method == 'POST':
+        book.delete()
+        return redirect('lab9_part2.listbooks')
+    return render(request, 'bookmodule/deletebook2.html', {'book': book})

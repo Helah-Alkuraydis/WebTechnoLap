@@ -4,9 +4,15 @@ class Publisher(models.Model):
     name = models.CharField(max_length=200)
     location = models.CharField(max_length=300)
 
+    def __str__(self):
+        return self.name
+
 class Author(models.Model):
     name = models.CharField(max_length=200)
     DOB = models.DateField(null=True)
+
+    def __str__(self):
+        return self.name
 
 class Book(models.Model):
     title = models.CharField(max_length= 100)
@@ -16,6 +22,9 @@ class Book(models.Model):
     rating = models.SmallIntegerField(default = 1)
     publisher = models.ForeignKey(Publisher, null=True, on_delete=models.SET_NULL)
     authors = models.ManyToManyField(Author)
+
+    def __str__(self):
+        return self.name
 
 
 class Address(models.Model):
