@@ -1,7 +1,10 @@
 
 from django.http import HttpResponse # type: ignore
 from django.shortcuts import redirect, render
-
+from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
+from django.contrib.auth import login, authenticate , logout
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from apps.bookmodule.forms import BookForm  # type: ignore
 from .models import Book, Address, Document, Student, Author, Publisher , Student2
 from django.db.models import Count, Sum, Avg, Max, Min,Q, F, FloatField, ExpressionWrapper
@@ -337,11 +340,13 @@ def deletebook2(request, id):
 
 
 # 1. القراءة (العرض)
+@login_required
 def list_students(request):
     students = Student.objects.all()
     return render(request, 'bookmodule/list_students.html', {'students': students})
 
 # 2. الإضافة
+@login_required
 def add_student(request):
     if request.method == 'POST':
         form = StudentForm(request.POST)
@@ -353,6 +358,7 @@ def add_student(request):
     return render(request, 'bookmodule/student_form.html', {'form': form, 'action': 'Add'})
 
 # 3. التعديل
+@login_required
 def edit_student(request, id):
     student = Student.objects.get(id=id)
     if request.method == 'POST':
@@ -364,7 +370,9 @@ def edit_student(request, id):
         form = StudentForm(instance=student)
     return render(request, 'bookmodule/student_form.html', {'form': form, 'action': 'Edit'})
 
+
 # 4. الحذف
+@login_required
 def delete_student(request, id):
     student = Student.objects.get(id=id)
     if request.method == 'POST':
@@ -373,10 +381,12 @@ def delete_student(request, id):
     return render(request, 'bookmodule/delete_student.html', {'student': student})
 
 
+@login_required
 def list_students2(request):
     students = Student2.objects.all()
     return render(request, 'bookmodule/list_students2.html', {'students': students})
 
+@login_required
 def add_student2(request):
     if request.method == 'POST':
         form = Student2Form(request.POST)
@@ -387,6 +397,7 @@ def add_student2(request):
         form = Student2Form()
     return render(request, 'bookmodule/student2_form.html', {'form': form, 'action': 'Add'})
 
+@login_required
 def edit_student2(request, id):
     student = Student2.objects.get(id=id)
     if request.method == 'POST':
@@ -398,6 +409,7 @@ def edit_student2(request, id):
         form = Student2Form(instance=student)
     return render(request, 'bookmodule/student2_form.html', {'form': form, 'action': 'Edit'})
 
+@login_required
 def delete_student2(request, id):
     student = Student2.objects.get(id=id)
     if request.method == 'POST':
@@ -406,11 +418,12 @@ def delete_student2(request, id):
     return render(request, 'bookmodule/delete_student2.html', {'student': student})
 
 
-
+@login_required
 def list_documents(request):
     documents = Document.objects.all()
     return render(request, 'bookmodule/list_documents.html', {'documents': documents})
 
+@login_required
 def add_document(request):
     if request.method == 'POST':
         # السر هنا: لازم نمرر request.FILES عشان الفورم يستقبل الصورة!
@@ -421,3 +434,46 @@ def add_document(request):
     else:
         form = DocumentForm()
     return render(request, 'bookmodule/add_document.html', {'form': form})
+
+
+# Lap 12 
+# Task 1: Register View
+def register_user(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save() 
+            
+            messages.success(request, 'You have successfully registered! Please login.')
+            
+            return redirect('login_user') 
+    else:
+        form = UserCreationForm()
+        
+    return render(request, 'bookmodule/register.html', {'form': form})
+
+# Task 2: Login View
+def login_user(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            messages.success(request, f'Welcome back, {user.username}! You are logged in.')
+            return redirect('list_students') 
+        else:
+            messages.error(request, 'Invalid username or password. Please try again.')
+
+    else:
+        form = AuthenticationForm()
+        
+    return render(request, 'bookmodule/login.html', {'form': form})
+
+
+# Task 3: Logout View
+def logout_user(request):
+    logout(request)
+    
+    messages.success(request, 'You have been logged out successfully.')
+    
+    return redirect('login_user')

@@ -49,10 +49,13 @@ urlpatterns = [
     path('lab11/task1/deletestudent/<int:id>', views.delete_student, name='delete_student'),
 
     path('lab11/task2/students', views.list_students2, name='list_students2'),
-path('lab11/task2/addstudent', views.add_student2, name='add_student2'),
-path('lab11/task2/editstudent/<int:id>', views.edit_student2, name='edit_student2'),
-path('lab11/task2/deletestudent/<int:id>', views.delete_student2, name='delete_student2'),
+    path('lab11/task2/addstudent', views.add_student2, name='add_student2'),
+    path('lab11/task2/editstudent/<int:id>', views.edit_student2, name='edit_student2'),
+    path('lab11/task2/deletestudent/<int:id>', views.delete_student2, name='delete_student2'),
 
-path('lab11/task3/documents', views.list_documents, name='list_documents'),
-path('lab11/task3/add_document', views.add_document, name='add_document'),
+    path('lab11/task3/documents', views.list_documents, name='list_documents'),
+    path('lab11/task3/add_document', views.add_document, name='add_document'),
+    path('users/register', views.register_user, name='register_user'),
+    path('users/login', views.login_user, name='login_user'),
+    path('users/logout', views.logout_user, name='logout_user'),
 ]
